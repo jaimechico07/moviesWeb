@@ -1,4 +1,4 @@
-<nav class="max-w-7xl mx-auto mt-4">
+<nav class="max-w-7xl mx-auto mt-4 relative">
   <div
     *ngIf="auth.user$ | async as user"
     class="flex justify-between items-center"
@@ -42,9 +42,15 @@
   </div>
 
   <div
-    class="absolute px-8 top-36 w-full"
-    [ngClass]="{ hidden: !isSearchVisible, block: isSearchVisible }"
+    class="absolute px-8 top-36 w-full transition-all duration-500 ease-out transform opacity-0 translate-y-5 scale-95 pointer-events-none"
+    [ngClass]="{
+      'opacity-100 translate-y-0 scale-100 pointer-events-auto': isSearchVisible
+    }"
   >
-    <input class="w-full outline-none px-3 py-2" type="search" placeholder="Search Movie" />
+    <input
+      class="w-full outline-none rounded-full px-3 py-2"
+      type="search"
+      placeholder="Search Movie"
+    />
   </div>
 </nav>
