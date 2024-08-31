@@ -1,0 +1,50 @@
+<nav class="max-w-7xl mx-auto mt-4">
+  <div
+    *ngIf="auth.user$ | async as user"
+    class="flex justify-between items-center"
+  >
+    <figure>
+      <img
+        class="w-60 cursor-pointer"
+        src="../../../assets/yokaifilm-white.webp"
+        alt="logo yokaifilm"
+      />
+    </figure>
+    <ul class="flex items-center text-white gap-x-5">
+      <li class="cursor-pointer">Movies</li>
+      <li class="cursor-pointer">TV Shows</li>
+      <li
+        (click)="toggleSearchVisibility()"
+        class="flex items-center cursor-pointer"
+      >
+        <i-tabler name="search"></i-tabler>
+      </li>
+      <li
+        (click)="toggleProfileVisibility()"
+        class="w-10 h-10 rounded-full cursor-pointer relative"
+      >
+        <img
+          class="w-full h-full rounded-full mb-2"
+          [src]="user.picture"
+          alt=""
+        />
+        <div
+          class="absolute bg-white w-auto -left-40 rounded-xl text-black p-4"
+          [ngClass]="{ hidden: !isProfileVisible, block: isProfileVisible }"
+        >
+          <ul class="flex flex-col gap-4">
+            <li class="font-bold capitalize">{{ user.name }}</li>
+            <li (click)="logout()">LogOut</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div
+    class="absolute px-8 top-36 w-full"
+    [ngClass]="{ hidden: !isSearchVisible, block: isSearchVisible }"
+  >
+    <input class="w-full outline-none px-3 py-2" type="search" placeholder="Search Movie" />
+  </div>
+</nav>

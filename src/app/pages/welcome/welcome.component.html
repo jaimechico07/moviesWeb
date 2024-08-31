@@ -1,0 +1,43 @@
+<div class="w-full h-screen relative">
+  <div class="absolute z-10 top-0 mix-blend-screen px-4">
+    <p
+      class="mix-blend-screen text-[#cccccc] leading-none m-0 p-0 text-[250px] font-extrabold"
+    >
+      WELCOME
+    </p>
+    <p class="text-[#cccccc] text-end font-extrabold text-[50px]">
+      Tus peliculas favoritas, Solo aquí
+    </p>
+  </div>
+  <figure class="absolute w-full">
+    <img
+      class="h-screen w-full blur-sm grayscale"
+      src="./../../../assets/background.jpg"
+      alt=""
+    />
+  </figure>
+  <div class="h-screen w-full flex justify-center items-center">
+    <div
+      (click)="login()"
+      class="w-fit mx-auto rounded-full backdrop-blur-sm bg-gradient-to-r from-[#43d8e68c] to-[#fe65af79] p-6 cursor-pointer"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="65"
+        height="65"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="icon icon-tabler icons-tabler-filled icon-tabler-player-play text-white animate-scaleUpDown"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path
+          d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z"
+        />
+      </svg>
+    </div>
+  </div>
+  <figure class="absolute z-10 bottom-0 right-0 px-12 py-12">
+    <img src="./../../../assets/yokaifilm-white.webp" alt="logo yokaifilm" />
+  </figure>
+</div>
+<!-- brown, crimson, darkgrey -->
