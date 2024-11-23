@@ -1,0 +1,12 @@
+<section class="p-4 lg:p-16">
+  <div class="flex flex-col items-center  sm:w-full sm:flex-row justify-start sm:justify-between mb-4">
+    <h2
+      class="text-white text-4xl text-bold after:content-[''] after:block after:w-full sm:after:w-12 after:h-1 after:bg-red-600 after:rounded-full after:mt-2 mb-2 md:sm-0"
+    >
+      Populars
+    </h2>
+    <app-switch-tabs [tabs]="['movie', 'tv']" (tabSelected)="onTabSelected($event)"></app-switch-tabs>
+  </div>
+  <!-- Pasa las películas al componente Carousel -->
+  <app-carousel [movies]="movies"></app-carousel>
+</section>

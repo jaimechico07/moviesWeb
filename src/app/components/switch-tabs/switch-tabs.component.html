@@ -1,0 +1,13 @@
+<div class="bg-white">
+  <ul class="flex items-center text-center relative">
+    <li *ngFor="let tab of tabs"
+        class="px-8 py-[2px] cursor-pointer z-10"
+        [ngClass]="{'bg-red-600 duration-500 text-white': selectedTab === tab}"
+        (click)="onTabClick(tab)">
+      {{ tab | titlecase }}
+    </li>
+    <div class="absolute top-0 left-0 h-full bg-red-600 transition-all duration-500 ease-in-out"
+         [ngStyle]="{'width': (100 / tabs.length) + '%', 'transform': 'translateX(' + (tabs.indexOf(selectedTab) * 100) + '%)'}">
+    </div>
+  </ul>
+</div>
