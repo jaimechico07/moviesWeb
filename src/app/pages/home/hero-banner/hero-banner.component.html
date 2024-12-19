@@ -1,6 +1,6 @@
 <section class="h-[700px] relative">
   <swiper-container
-    class="mySwiper h-[700px] "
+    class="mySwiper h-[700px]"
     loop="true"
     lazy="true"
     autoplay="true"
@@ -13,21 +13,30 @@
         [src]="'https://image.tmdb.org/t/p/original' + movie.backdrop_path"
         [alt]="movie.title"
       />
-      <div class="absolute p-5 md:p-16 inset-y-0 left-0 gap-6 flex flex-col justify-center max-w-[300px] z-30 sm:max-w-[450px] md:max-w-[600px]"
+      <div
+        class="absolute p-5 md:p-16 inset-y-0 left-0 gap-6 flex flex-col justify-center max-w-[300px] z-30 sm:max-w-[450px] md:max-w-[600px]"
       >
         <h4
           class="px-2 py-1 w-fit text-xl md:text-2xl leading-tight font-bold bg-yellow-500 rounded-md"
         >
           New
         </h4>
-        <h1 class="text-white text-3xl md:text-5xl font-bold">{{ movie.title }}</h1>
-        <p class="text-white line-clamp-3"> {{ movie.overview }}</p>
-        <a href="" class="text-white bg-red-600 w-fit py-3 px-7  cursor-pointer rounded-lg">Play Now</a>
+        <h1 class="text-white text-3xl md:text-5xl font-bold">
+          {{ movie.title }}
+        </h1>
+        <p class="text-white line-clamp-3">{{ movie.overview }}</p>
+        <a
+          href=""
+          class="text-white bg-red-600 w-fit py-3 px-7 cursor-pointer rounded-lg"
+          >Play Now</a
+        >
       </div>
-      <div class="absolute bottom-0 left-0 w-full h-[250px] z-10 bg-gradient-hero"></div>
-      <div class="absolute inset-y-0 left-0 w-[800px] h-full z-10 bg-gradient-hero_2"></div>
+      <div
+        class="absolute bottom-0 left-0 w-full h-[250px] z-10 bg-gradient-hero"
+      ></div>
+      <div
+        class="absolute inset-y-0 left-0 w-[800px] h-full z-10 bg-gradient-hero_2"
+      ></div>
     </swiper-slide>
   </swiper-container>
-
-
 </section>
