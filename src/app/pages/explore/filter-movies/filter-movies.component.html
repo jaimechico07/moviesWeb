@@ -1,0 +1,88 @@
+<nav class="max-w-7xl hidden lg:block mx-auto relative py-8">
+  <div class="flex justify-between items-center">
+    <figure>
+      <img
+        class="w-60 cursor-pointer"
+        src="../../../assets/yokaifilm-white.webp"
+        alt="logo yokaifilm"
+      />
+    </figure>
+    <ul class="flex items-center text-white gap-x-5">
+      <li routerLink="/home" class="cursor-pointer px-3 py-2">Inicio</li>
+      <li
+        (click)="toggleTendencias()"
+        (mouseleave)="closeAllMenus()"
+        class="cursor-pointer flex items-center gap-x-1 px-3 py-2 relative"
+      >
+        Tendencias
+        <span class="material-icons rotate-90 text-red-600">
+          chevron_right</span
+        >
+        <div
+          *ngIf="isTendenciasVisible"
+          [ngClass]="{
+            'animate-fade-in': isTendenciasVisible,
+            'animate-fade-out': !isTendenciasVisible
+          }"
+          class="h-fit w-max bg-white absolute left-10 z-50 -bottom-[130px] rounded-lg p-3"
+        >
+          <ul class="grid gap-2">
+            <li
+              class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
+            >
+              Estrenos
+            </li>
+            <li
+              class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
+            >
+              Tendencias Semana
+            </li>
+            <li
+              class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
+            >
+              Tendencias Día
+            </li>
+            <li
+              class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
+            >
+              Ultimas Publicadas
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li
+        (click)="toggleGeneros()"
+        (mouseleave)="closeAllMenus()"
+        class="cursor-pointer flex items-center gap-x-1 relative px-3 py-2"
+      >
+        Géneros
+        <span class="material-icons rotate-90 text-red-600">
+          chevron_right</span
+        >
+        <div
+          *ngIf="isGenerosVisible"
+          [ngClass]="{
+            'animate-fade-in': isGenerosVisible,
+            'animate-fade-out': !isGenerosVisible
+          }"
+          class="h-fit w-max bg-white absolute grid grid-cols-3 left-10 z-50 -bottom-[238px] rounded-lg p-3 gap-2"
+        >
+          <p
+            *ngFor="let genre of genres; let i = index"
+            (click)="onSearch(genre.id, 'genre')"
+            class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
+          >
+            {{ genre.name }}
+          </p>
+        </div>
+      </li>
+    </ul>
+    <input
+      type="search"
+      placeholder="Buscador..."
+      class="outline-none rounded-full px-3 py-1"
+      [(ngModel)]="searchQuery"
+      (keyup.enter)="onSearch(searchQuery, 'name')"
+    />
+  </div>
+</nav>

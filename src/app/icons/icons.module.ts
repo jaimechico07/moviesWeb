@@ -1,8 +1,14 @@
 import { NgModule } from '@angular/core';
 
-
 import { TablerIconsModule } from 'angular-tabler-icons';
-import { IconSearch,IconBrandTwitter,IconBrandFacebook, IconBrandInstagram, IconBrandYoutube,IconMenu2
+import {
+  IconSearch,
+  IconBrandTwitter,
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconBrandYoutube,
+  IconMenu2,
+  IconChevronCompactDown,
 } from 'angular-tabler-icons/icons';
 
 // Select some icons (use an object, not an array)
@@ -12,17 +18,13 @@ const icons = {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandYoutube,
-  IconMenu2
-
+  IconMenu2,
+  IconChevronCompactDown,
 };
 
 @NgModule({
   declarations: [],
-  imports: [
-  TablerIconsModule.pick(icons)
-  ],
-  exports: [
-    TablerIconsModule
-  ]
+  imports: [TablerIconsModule.pick(icons)],
+  exports: [TablerIconsModule],
 })
-export class IconsModule { }
+export class IconsModule {}

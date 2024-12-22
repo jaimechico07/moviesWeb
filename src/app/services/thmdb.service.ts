@@ -29,10 +29,6 @@ export class ThmdbService {
     return this.fetchMovieData(`/movie/upcoming`);
   }
 
-  public async searchMovies(query: string): Promise<any> {
-    return this.fetchMovieData(`/search/multi?query=${query}`);
-  }
-
   public async trendingMovies(query: string): Promise<any> {
     return this.fetchMovieData(`/trending/movie/${query}`);
   }
@@ -55,6 +51,26 @@ export class ThmdbService {
   ): Promise<any> {
     return this.fetchMovieData(
       `discover/movie?page=${page}&per_page=${perPage}`
+    );
+  }
+
+  public async getMoviesByGenre(
+    genreId: number,
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<any> {
+    return this.fetchMovieData(
+      `discover/movie?with_genres=${genreId}&page=${page}&per_page=${perPage}`
+    );
+  }
+
+  public async searchMovies(
+    query: string,
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<any> {
+    return this.fetchMovieData(
+      `/search/movie?query=${query}&page=${page}&per_page=${perPage}`
     );
   }
 }

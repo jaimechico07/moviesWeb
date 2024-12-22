@@ -5,8 +5,5 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './copyright.component.html',
-  styleUrl: './copyright.component.css'
 })
-export class CopyrightComponent {
-
-}
+export class CopyrightComponent {}

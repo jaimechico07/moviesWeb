@@ -15,7 +15,6 @@ import { ThmdbService } from '../../services/thmdb.service';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './carousel.component.html',
-  styleUrl: './carousel.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CarouselComponent implements OnInit {
@@ -36,7 +35,6 @@ export class CarouselComponent implements OnInit {
         map[genre.id] = genre.name;
         return map;
       }, {} as { [key: number]: string });
-
     } catch (error) {
       this.genres = [];
     }

@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { SwitchTabsComponent } from '../../../components/switch-tabs/switch-tabs.component';
-import { CarouselComponent } from "../../../components/carousel/carousel.component";
+import { CarouselComponent } from '../../../components/carousel/carousel.component';
 import { ThmdbService } from '../../../services/thmdb.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-trending',
   standalone: true,
-  imports: [SwitchTabsComponent, CarouselComponent,FormsModule],
+  imports: [SwitchTabsComponent, CarouselComponent, FormsModule],
   templateUrl: './trending.component.html',
-  styleUrl: './trending.component.css'
 })
 export class TrendingComponent implements OnInit {
   movies: any[] = [];
   query: string = 'day'; // Valor por defecto
 
-  constructor(private thmdbService: ThmdbService){}
+  constructor(private thmdbService: ThmdbService) {}
 
   ngOnInit(): void {
     this.loadMovies();
@@ -34,5 +33,4 @@ export class TrendingComponent implements OnInit {
     this.query = tab; // Actualizar la consulta según la pestaña seleccionada
     this.loadMovies(); // Cargar las películas correspondientes
   }
-
 }

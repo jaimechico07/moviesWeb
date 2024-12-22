@@ -25,7 +25,8 @@
     "sweetalert2": "^11.15.2",
     "swiper": "^11.1.12",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.14.3",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.8",

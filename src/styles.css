@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   margin-top: 0;
   margin-bottom: 0;
   padding: 0;
@@ -13,7 +13,13 @@ body {
   padding: 0;
 }
 
-/* @keyframes enter {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/*
+@keyframes enter {
   0% {
     clip-path: circle(0%);
   }
@@ -36,7 +42,6 @@ body {
     clip-path: circle(0%);
   }
 }
-
 
 ::view-transition-old(root) {
   animation: exit 2s ease 0s 1 normal forwards;

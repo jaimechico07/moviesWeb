@@ -1,0 +1,39 @@
+<section class="max-w-screen-2xl mx-auto">
+  <app-filter-movies
+    (searchQueryChanged)="onSearch($event)"
+    (searchQueryGenre)="onSearchByGenre($event)"
+  ></app-filter-movies>
+
+  <app-card-movies [movies]="movies"></app-card-movies>
+
+  <div class="flex gap-2 justify-center mt-10 mb-10">
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+      class="px-4 py-2 border rounded-md text-sm font-medium bg-white hover:text-white hover:border-transparent hover:bg-red-600 text-gray-700 duration-500 border-gray-300"
+    >
+      &lt;
+    </button>
+    <!-- Input para cambiar a una página específica -->
+    <input
+      type="number"
+      [(ngModel)]="pageInput"
+      min="1"
+      [max]="totalPages"
+      class="px-4 py-2 border rounded-md text-sm font-medium bg-white text-gray-700 duration-500 border-gray-300 outline-none"
+      (keydown.enter)="goToPage()"
+      placeholder="Página"
+    />
+    <span
+      class="px-4 py-2 border rounded-md text-sm font-medium bg-white text-gray-700 duration-500 border-gray-300"
+      >{{ currentPage }} de {{ totalPages }}</span
+    >
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      class="px-4 py-2 border rounded-md text-sm font-medium bg-white hover:text-white hover:border-transparent hover:bg-red-600 text-gray-700 duration-500 border-gray-300"
+    >
+      &gt;
+    </button>
+  </div>
+</section>

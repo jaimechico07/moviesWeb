@@ -1,14 +1,19 @@
-import { Component,ElementRef,ViewChild,CUSTOM_ELEMENTS_SCHEMA,OnInit} from '@angular/core';
-import { ThmdbService } from '../../../services/thmdb.service'
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  CUSTOM_ELEMENTS_SCHEMA,
+  OnInit,
+} from '@angular/core';
+import { ThmdbService } from '../../../services/thmdb.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-top-rated',
   standalone: true,
-  imports: [ FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './top-rated.component.html',
-  styleUrl: './top-rated.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class TopRatedComponent implements OnInit {
@@ -17,8 +22,8 @@ export class TopRatedComponent implements OnInit {
 
   constructor(private thmdbService: ThmdbService) {}
 
-  async ngOnInit(){
-    this.loadMovies()
+  async ngOnInit() {
+    this.loadMovies();
   }
 
   async loadMovies() {
@@ -29,7 +34,6 @@ export class TopRatedComponent implements OnInit {
       console.error('Error fetching Movies', error);
     }
   }
-
 
   swiperParams = {
     spaceBetween: 10,
@@ -46,12 +50,11 @@ export class TopRatedComponent implements OnInit {
         slidesPerView: 3,
       },
     },
-
   };
 
   ngAfterViewInit() {
     const swiper = this.swiperRef?.nativeElement;
     Object.assign(swiper, this.swiperParams);
     swiper.initialize(); // Asegúrate de que esto esté correctamente configurado
-  }// Inyección del servicio
+  } // Inyección del servicio
 }

@@ -8,7 +8,6 @@ import { ThmdbService } from '../../../services/thmdb.service';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './hero-banner.component.html',
-  styleUrl: './hero-banner.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HeroBannerComponent implements OnInit {
@@ -28,6 +27,4 @@ export class HeroBannerComponent implements OnInit {
       console.error('Error fetching Movies', error);
     }
   }
-
-
 }

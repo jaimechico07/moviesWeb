@@ -1,4 +1,4 @@
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IconsModule } from '../../icons/icons.module';
@@ -13,14 +13,13 @@ import { ThmdbService } from '../../services/thmdb.service';
   standalone: true,
   imports: [CommonModule, IconsModule, FormsModule, RouterLink],
   templateUrl: './nav-movies.component.html',
-  styleUrl: './nav-movies.component.css'
 })
 export class NavMoviesComponent {
   isProfileVisible: boolean = false;
-  isSearchVisible:  boolean = false;
-  isMenuVisible:  boolean = false;
+  isSearchVisible: boolean = false;
+  isMenuVisible: boolean = false;
 
-  constructor(public auth: AuthService, private thmdbService: ThmdbService){}
+  constructor(public auth: AuthService, private thmdbService: ThmdbService) {}
 
   toggleProfileVisibility() {
     this.isProfileVisible = !this.isProfileVisible;
@@ -37,5 +36,4 @@ export class NavMoviesComponent {
   logout() {
     this.auth.logout();
   }
-
 }

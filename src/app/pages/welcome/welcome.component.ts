@@ -3,20 +3,14 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 
-
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [  CommonModule],
+  imports: [CommonModule],
   templateUrl: './welcome.component.html',
-  styleUrl: './welcome.component.css'
 })
-export class WelcomeComponent implements OnInit{
-
-
-  constructor(public auth: AuthService, private router: Router) {
-
-  }
+export class WelcomeComponent implements OnInit {
+  constructor(public auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.auth.isAuthenticated$.subscribe((isAuthenticated) => {

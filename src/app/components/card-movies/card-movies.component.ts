@@ -9,7 +9,6 @@ import { ThmdbService } from '../../services/thmdb.service';
   standalone: true,
   imports: [CommonModule, IconsModule, FormsModule],
   templateUrl: './card-movies.component.html',
-  styleUrl: './card-movies.component.css',
 })
 export class CardMoviesComponent implements OnInit {
   genres: any[] = [];
@@ -21,19 +20,21 @@ export class CardMoviesComponent implements OnInit {
   async ngOnInit() {
     try {
       const response = await this.thmdbService.getGenreMovies();
-
       this.genres = Array.isArray(response) ? response : response.genres || [];
 
+      // Mapear géneros a un objeto para un acceso rápido
       this.genresMap = this.genres.reduce((map, genre) => {
         map[genre.id] = genre.name;
         return map;
       }, {} as { [key: number]: string });
     } catch (error) {
+      console.error('Error cargando géneros:', error);
       this.genres = [];
     }
   }
 
   getGenreName(genreId: number): string {
+    // Obtener el nombre del género o 'Desconocido' si no se encuentra
     return this.genresMap[genreId] || 'Desconocido';
   }
 }

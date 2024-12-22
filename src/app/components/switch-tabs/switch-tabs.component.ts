@@ -1,18 +1,16 @@
-import { Component, Output, EventEmitter,Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 
 @Component({
   selector: 'app-switch-tabs',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './switch-tabs.component.html',
-  styleUrl: './switch-tabs.component.css'
 })
 export class SwitchTabsComponent {
   @Input() tabs: string[] = [];
-  selectedTab: string = this.tabs[0];  // Pestaña seleccionada por defecto
+  selectedTab: string = this.tabs[0]; // Pestaña seleccionada por defecto
   @Output() tabSelected: EventEmitter<string> = new EventEmitter<string>();
 
   ngOnChanges() {
@@ -26,5 +24,4 @@ export class SwitchTabsComponent {
     this.selectedTab = tab;
     this.tabSelected.emit(tab);
   }
-
 }
