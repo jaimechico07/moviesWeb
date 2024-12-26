@@ -28,21 +28,25 @@
         >
           <ul class="grid gap-2">
             <li
+              (click)="onUpComingClick('upcoming')"
               class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
             >
               Estrenos
             </li>
             <li
+              (click)="onTrendingClick('week')"
               class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
             >
               Tendencias Semana
             </li>
             <li
+              (click)="onTrendingClick('day')"
               class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
             >
               Tendencias Día
             </li>
             <li
+              (click)="onNowPlayingClick('nowplaying')"
               class="text-[#212529] duration-500 text-sm hover:bg-[#212529] hover:text-white rounded-full px-3 py-1 cursor-pointer"
             >
               Ultimas Publicadas

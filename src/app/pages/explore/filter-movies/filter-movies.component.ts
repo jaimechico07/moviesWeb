@@ -15,14 +15,15 @@ export class FilterMoviesComponent implements OnInit {
   isTendenciasVisible: boolean = false;
   isGenerosVisible: boolean = false;
   genres: any[] = [];
-  movies: any[] = [];
   genresMap: { [key: number]: string } = {};
   letters: string[] = ['All', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')];
   selectedLetter: string = 'All';
 
   @Output() searchQueryChanged = new EventEmitter<string>();
   @Output() searchQueryGenre = new EventEmitter<number>();
-
+  @Output() trendingClicked = new EventEmitter<string>();
+  @Output() upComingClicked = new EventEmitter<string>();
+  @Output() nowPlayingClicked = new EventEmitter<string>();
   searchQuery: string = '';
 
   public thmdbService = inject(ThmdbService);
@@ -52,6 +53,21 @@ export class FilterMoviesComponent implements OnInit {
         console.error('El género proporcionado no es un número válido:', query);
       }
     }
+  }
+
+  onTrendingClick(period: string): void {
+    this.searchQuery = '';
+    this.trendingClicked.emit(period); // Emitir el evento al componente padre
+  }
+
+  onUpComingClick(listUpComing: string): void {
+    this.searchQuery = '';
+    this.upComingClicked.emit(listUpComing); // Emitir el evento al componente padre
+  }
+
+  onNowPlayingClick(nowPlaying: string): void {
+    this.searchQuery = '';
+    this.nowPlayingClicked.emit(nowPlaying); // Emitir el evento al componente padre
   }
 
   setSelectedLetter(letter: string): void {

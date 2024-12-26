@@ -2,6 +2,9 @@
   <app-filter-movies
     (searchQueryChanged)="onSearch($event)"
     (searchQueryGenre)="onSearchByGenre($event)"
+    (trendingClicked)="onTrendingClick($event)"
+    (upComingClicked)="onUpComingClick($event)"
+    (nowPlayingClicked)="onNowPlayingClick($event)"
   ></app-filter-movies>
 
   <app-card-movies [movies]="movies"></app-card-movies>

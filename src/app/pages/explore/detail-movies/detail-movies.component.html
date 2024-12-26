@@ -1,0 +1,14 @@
+<div *ngIf="loading" class="loading">Cargando...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div *ngIf="movieDetails">
+  <h1>{{ movieDetails.title }}</h1>
+  <img
+    [src]="'https://image.tmdb.org/t/p/w500' + movieDetails.poster_path"
+    alt="{{ movieDetails.title }}"
+  />
+  <p><strong>Descripción:</strong> {{ movieDetails.overview }}</p>
+  <p><strong>Fecha de lanzamiento:</strong> {{ movieDetails.release_date }}</p>
+  <p><strong>Calificación:</strong> {{ movieDetails.vote_average }}</p>
+  <!-- Otros detalles que quieras mostrar -->
+</div>

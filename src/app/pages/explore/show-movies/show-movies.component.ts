@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ThmdbService } from '../../../services/thmdb.service';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ import { FilterMoviesComponent } from '../filter-movies/filter-movies.component'
   ],
   templateUrl: './show-movies.component.html',
 })
-export class ShowMoviesComponent {
+export class ShowMoviesComponent implements OnInit {
   movies: any[] = [];
   genres: any[] = [];
   currentPage: number = 1;
@@ -26,14 +26,23 @@ export class ShowMoviesComponent {
   pageInput: number = 1;
   searchQuery: string = '';
   searchGenre: number = 0;
+  searchPeriod: string = '';
+  searchListUpComing: string = '';
+  searchNowPlaying: string = '';
 
   constructor(private thmdbService: ThmdbService) {}
 
   ngOnInit(): void {
-    this.loadMovies();
+    this.loadMoviesWithFilters();
   }
 
-  async loadMovies(query: string = '', genreId?: number) {
+  async loadMovies(
+    query: string = '',
+    genreId?: number,
+    listTrending?: string,
+    listUpComing?: string,
+    nowPlaying?: string
+  ) {
     try {
       let data;
       if (query.trim()) {
@@ -45,18 +54,35 @@ export class ShowMoviesComponent {
         );
       } else if (genreId != null) {
         // Búsqueda por género
-        const allMovies = await this.thmdbService.getMoviesByGenre(
-          genreId,
+        const allMovies = await this.thmdbService.getMoviesAll(
           this.currentPage,
-          this.perPage
+          this.perPage,
+          genreId
         );
-        console.log('All Movies:', allMovies);
         data = {
           results: allMovies.results.filter((movie: any) =>
             movie.genre_ids.includes(genreId)
           ),
           total_pages: Math.min(allMovies.total_pages, 500),
         };
+      } else if (listTrending) {
+        // Cargar películas en tendencia
+        data = await this.thmdbService.trendingMovies(
+          listTrending,
+          this.currentPage
+        );
+      } else if (listUpComing) {
+        // Cargar películas en estreno
+        data = await this.thmdbService.upComingMovies(
+          this.currentPage,
+          this.perPage
+        );
+      } else if (nowPlaying) {
+        // Cargar películas ultimas publicadas
+        data = await this.thmdbService.nowPlayingMovies(
+          this.currentPage,
+          this.perPage
+        );
       } else {
         // Si no hay búsqueda, carga todas las películas
         data = await this.thmdbService.getMoviesAll(
@@ -65,45 +91,60 @@ export class ShowMoviesComponent {
         );
       }
       this.movies = data.results;
+      console.log('Movies:', this.movies);
       this.totalPages = Math.min(data.total_pages, 500);
     } catch (error) {
       console.error('Error fetching Movies', error);
     }
   }
 
-  async onSearch(query: string) {
+  onSearch(query: string) {
+    this.resetFilters('query');
     this.searchQuery = query;
-    this.currentPage = 1;
     this.loadMovies(this.searchQuery);
   }
 
   onSearchByGenre(genreId: number): void {
+    this.resetFilters('genre');
     this.searchGenre = genreId;
-    this.currentPage = 1;
-    this.loadMovies('', genreId);
+    this.loadMovies('', this.searchGenre);
+  }
+
+  onTrendingClick(period: string): void {
+    this.resetFilters('period');
+    this.searchPeriod = period;
+    this.loadMovies('', undefined, period);
+  }
+
+  onUpComingClick(listUpComing: string): void {
+    this.resetFilters('upComing');
+    this.searchListUpComing = listUpComing;
+    this.loadMovies('', undefined, '', this.searchListUpComing);
+  }
+
+  onNowPlayingClick(nowPlaying: string): void {
+    this.resetFilters('nowPlaying');
+    this.searchNowPlaying = nowPlaying;
+    this.loadMovies(
+      '',
+      undefined,
+      '',
+      this.searchListUpComing,
+      this.searchNowPlaying
+    );
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages && this.currentPage < 500) {
       this.currentPage++;
-      // Verifica si hay un genreId seleccionado, si es así, pasa el genreId
-      if (this.searchGenre) {
-        this.loadMovies('', this.searchGenre); // Búsqueda por género
-      } else {
-        this.loadMovies(this.searchQuery); // Búsqueda por nombre
-      }
+      this.loadMoviesWithFilters();
     }
   }
 
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      // Verifica si hay un genreId seleccionado, si es así, pasa el genreId
-      if (this.searchGenre) {
-        this.loadMovies('', this.searchGenre); // Búsqueda por género
-      } else {
-        this.loadMovies(this.searchQuery); // Búsqueda por nombre
-      }
+      this.loadMoviesWithFilters();
     }
   }
 
@@ -115,12 +156,7 @@ export class ShowMoviesComponent {
       this.pageInput <= 500
     ) {
       this.currentPage = this.pageInput;
-      // Verifica si hay un genreId seleccionado, si es así, pasa el genreId
-      if (this.searchGenre) {
-        this.loadMovies('', this.searchGenre); // Búsqueda por género
-      } else {
-        this.loadMovies(this.searchQuery); // Búsqueda por nombre
-      }
+      this.loadMoviesWithFilters();
     } else {
       setTimeout(() => {
         Swal.fire({
@@ -132,5 +168,37 @@ export class ShowMoviesComponent {
         });
       }, 0);
     }
+  }
+
+  // Nueva función para manejar la carga de películas con filtros aplicados
+  loadMoviesWithFilters() {
+    if (this.searchGenre) {
+      this.loadMovies('', this.searchGenre, '', ''); // Búsqueda por género
+    } else if (this.searchQuery) {
+      this.loadMovies(this.searchQuery); // Búsqueda por nombre
+    } else if (this.searchPeriod) {
+      // filtro por periodo day o week
+      this.loadMovies('', undefined, this.searchPeriod, '');
+    } else if (this.searchListUpComing) {
+      // filtro de estreno
+      this.loadMovies('', undefined, '', this.searchListUpComing);
+    } else {
+      this.loadMovies(
+        '',
+        undefined,
+        '',
+        this.searchListUpComing,
+        this.searchNowPlaying
+      );
+    }
+  }
+
+  resetFilters(exclude: string): void {
+    if (exclude !== 'query') this.searchQuery = '';
+    if (exclude !== 'genre') this.searchGenre = 0;
+    if (exclude !== 'period') this.searchPeriod = '';
+    if (exclude !== 'upComing') this.searchListUpComing = '';
+    if (exclude !== 'nowPlaying') this.searchNowPlaying = '';
+    this.currentPage = 1; // Reiniciar la página siempre
   }
 }

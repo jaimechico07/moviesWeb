@@ -21,7 +21,7 @@ export class HeroBannerComponent implements OnInit {
 
   async loadMovies() {
     try {
-      const data = await this.thmdbService.getMovies();
+      const data = await this.thmdbService.upComingMovies();
       this.movies = data.results;
     } catch (error) {
       console.error('Error fetching Movies', error);

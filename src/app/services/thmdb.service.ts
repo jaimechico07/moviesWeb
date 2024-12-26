@@ -25,16 +25,35 @@ export class ThmdbService {
     return response.json();
   }
 
-  public async getMovies(): Promise<any> {
-    return this.fetchMovieData(`/movie/upcoming`);
-  }
-
-  public async trendingMovies(query: string): Promise<any> {
-    return this.fetchMovieData(`/trending/movie/${query}`);
-  }
-
   public async getGenreMovies(): Promise<any> {
     return this.fetchMovieData(`/genre/movie/list`);
+  }
+
+  public async upComingMovies(
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<any> {
+    const url = page
+      ? `/movie/upcoming?page=${page}&per_page=${perPage}`
+      : `/movie/upcoming`;
+    return this.fetchMovieData(url);
+  }
+
+  public async nowPlayingMovies(
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<any> {
+    const url = page
+      ? `/movie/now_playing?page=${page}&per_page=${perPage}`
+      : `/movie/now_playing`;
+    return this.fetchMovieData(url);
+  }
+
+  public async trendingMovies(query: string, page?: number): Promise<any> {
+    const url = page
+      ? `/trending/movie/${query}?page=${page}`
+      : `/trending/movie/${query}`;
+    return this.fetchMovieData(url);
   }
 
   public async popularMovies(query: string): Promise<any> {
@@ -47,21 +66,13 @@ export class ThmdbService {
 
   public async getMoviesAll(
     page: number = 1,
-    perPage: number = 20
+    perPage: number = 20,
+    genreId?: number
   ): Promise<any> {
-    return this.fetchMovieData(
-      `discover/movie?page=${page}&per_page=${perPage}`
-    );
-  }
-
-  public async getMoviesByGenre(
-    genreId: number,
-    page: number = 1,
-    perPage: number = 20
-  ): Promise<any> {
-    return this.fetchMovieData(
-      `discover/movie?with_genres=${genreId}&page=${page}&per_page=${perPage}`
-    );
+    const url = genreId
+      ? `discover/movie?with_genres=${genreId}&page=${page}&per_page=${perPage}`
+      : `discover/movie?page=${page}&per_page=${perPage}`;
+    return this.fetchMovieData(url);
   }
 
   public async searchMovies(
@@ -72,5 +83,9 @@ export class ThmdbService {
     return this.fetchMovieData(
       `/search/movie?query=${query}&page=${page}&per_page=${perPage}`
     );
+  }
+
+  getMovieDetails(id: number): Promise<any> {
+    return this.fetchMovieData(`movie/${id}`);
   }
 }

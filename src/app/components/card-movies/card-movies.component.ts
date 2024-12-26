@@ -2,12 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IconsModule } from '../../icons/icons.module';
+import { RouterLink } from '@angular/router';
+import { SlugifyPipe } from '../../pipes/slugify.pipe';
 
 import { ThmdbService } from '../../services/thmdb.service';
 @Component({
   selector: 'app-card-movies',
   standalone: true,
-  imports: [CommonModule, IconsModule, FormsModule],
+  imports: [CommonModule, IconsModule, FormsModule, RouterLink, SlugifyPipe],
   templateUrl: './card-movies.component.html',
 })
 export class CardMoviesComponent implements OnInit {
