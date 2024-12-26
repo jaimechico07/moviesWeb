@@ -8,11 +8,12 @@ import {
 import { ThmdbService } from '../../../services/thmdb.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-top-rated',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './top-rated.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -26,13 +27,15 @@ export class TopRatedComponent implements OnInit {
     this.loadMovies();
   }
 
-  async loadMovies() {
-    try {
-      const data = await this.thmdbService.topRatedMovies();
-      this.movies = data.results;
-    } catch (error) {
-      console.error('Error fetching Movies', error);
-    }
+  loadMovies(): void {
+    this.thmdbService.topRatedMovies().subscribe({
+      next: (data) => {
+        this.movies = data.results;
+      },
+      error: (error) => {
+        console.error('Error fetching Movies', error);
+      },
+    });
   }
 
   swiperParams = {

@@ -1,14 +1,106 @@
 <div *ngIf="loading" class="loading">Cargando...</div>
 <div *ngIf="error" class="error">{{ error }}</div>
 
-<div *ngIf="movieDetails">
-  <h1>{{ movieDetails.title }}</h1>
-  <img
-    [src]="'https://image.tmdb.org/t/p/w500' + movieDetails.poster_path"
-    alt="{{ movieDetails.title }}"
-  />
-  <p><strong>Descripción:</strong> {{ movieDetails.overview }}</p>
-  <p><strong>Fecha de lanzamiento:</strong> {{ movieDetails.release_date }}</p>
-  <p><strong>Calificación:</strong> {{ movieDetails.vote_average }}</p>
+<div
+  class="container mx-auto flex flex-col gap-10 p-4 my-10"
+  *ngIf="movieDetails"
+>
   <!-- Otros detalles que quieras mostrar -->
+  <div class="bg-[#111111] rounded-3xl" *ngIf="trailerUrl">
+    <iframe
+      class="w-full object-cover h-[600px] rounded-3xl"
+      [src]="trailerUrl | safeUrl"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <div
+    class="flex flex-col items-center lg:flex-row w-full gap-6 bg-[#111111] p-8 rounded-3xl"
+  >
+    <figure class="flex-2/5 rounded-3xl">
+      <img
+        class="rounded-3xl"
+        [src]="
+          movieDetails.poster_path
+            ? 'https://image.tmdb.org/t/p/w300' + movieDetails.poster_path
+            : movieDetails.backdrop_path
+            ? 'https://image.tmdb.org/t/p/w300' + movieDetails.backdrop_path
+            : movieDetails.profile_path
+            ? 'https://image.tmdb.org/t/p/w300' + movieDetails.profile_path
+            : 'assets/no-poster.png'
+        "
+        [alt]="'Poster of ' + movieDetails.title"
+      />
+    </figure>
+    <div class="flex flex-col flex-1 gap-6">
+      <div>
+        <div class="flex gap-4 items-end">
+          <h1 class="text-dynamic-h2 font-bold text-white leading-none">
+            {{
+              movieDetails.title ||
+                movieDetails.name ||
+                movieDetails.original_name
+            }}
+          </h1>
+          <p class="text-white">{{ movieDetails.release_date }}</p>
+        </div>
+        <div class="flex gap-2">
+          <p
+            *ngFor="let genreId of movieDetails.genres"
+            class="text-[#a3a3a3] text-dynamic-h6 truncate"
+          >
+            {{ genreId.name }}
+          </p>
+        </div>
+      </div>
+      <div>
+        <p class="text-dynamic-h6 text-red-500">{{ movieDetails.tagline }}</p>
+        <p class="text-dynamic-p text-white">{{ movieDetails.overview }}</p>
+      </div>
+      <div class="flex gap-4">
+        <p class="flex items-center text-white text-lg">
+          <span
+            class="flex items-center bg-yellow-500 text-white px-2 py-1 rounded-full text-sm font-semibold"
+          >
+            {{ convertirEntero(movieDetails.vote_average) }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 ml-1"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <path
+                d="M10 15l-3.5 2 1-4.5L3 8h4.5L10 3l2.5 5.5H17l-4.5 4.5 1 4.5L10 15z"
+              />
+            </svg>
+          </span>
+        </p>
+        <p class="text-white">|</p>
+        <p class="text-white">
+          {{ convertRuntimeToHoursAndMinutes(movieDetails.runtime) }}
+        </p>
+      </div>
+      <div *ngIf="filteredCast.length > 0" class="w-full rounded-3xl">
+        <ul class="flex flex-wrap justify-around gap-6">
+          <li *ngFor="let actor of filteredCast">
+            <img
+              class="rounded-full w-20 h-20 mx-auto mb-1 object-cover"
+              [src]="
+                actor.profile_path
+                  ? 'https://image.tmdb.org/t/p/w500' + actor.profile_path
+                  : 'path/to/default-image.jpg'
+              "
+              alt="{{ actor.name }}"
+            />
+            <div class="flex flex-col text-white text-center">
+              <p class="text-dynamic-p">{{ actor.name }}</p>
+              <p class="text-dynamic-p">{{ actor.character }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

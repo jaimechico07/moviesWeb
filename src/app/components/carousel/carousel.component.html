@@ -1,39 +1,38 @@
-<swiper-container #swiperRef>
-  <swiper-slide
-    *ngFor="let movie of movies"
-    class="overflow-hidden"
-    autoplay="true"
-  >
-    <div class="relative w-full h-full overflow-hidden aspect-[2/3]">
-      <img
-        [src]="
-          'https://image.tmdb.org/t/p/original' +
-          (movie.poster_path || movie.backdrop_path)
-        "
-        alt="{{ movie.title }}"
-        class="w-full h-full object-center object-cover mb-2 transition-transform duration-500 hover:scale-125"
-        loading="lazy"
-      />
-    </div>
-    <div class="text-white">
-      <h3 class="text-lg font-bold uppercase line-clamp-1">
-        {{ movie.title || movie.name }}
-      </h3>
-      <div class="flex items-center gap-4 text-[#a3a3a3]">
-        <p>{{ movie.release_date || movie.first_air_date | date : "yyyy" }}</p>
-        <p>{{ movie.adult ? "+18" : "AA" }}</p>
-        <p>{{ getGenreName(movie.genre_ids[0]) }}</p>
+<section class="relative">
+  <swiper-container #swiperRef>
+    <swiper-slide
+      *ngFor="let movie of movies"
+      class="overflow-hidden cursor-pointer"
+      autoplay="true"
+      [routerLink]="['/explore/detail-movies', movie.id]"
+    >
+      <div class="relative w-full h-full overflow-hidden aspect-[2/3]">
+        <img
+          [src]="
+            'https://image.tmdb.org/t/p/original' +
+            (movie.poster_path || movie.backdrop_path)
+          "
+          alt="{{ movie.title }}"
+          class="w-full h-full object-center object-cover mb-2 transition-transform duration-500 hover:scale-125"
+          loading="lazy"
+        />
       </div>
-    </div>
-  </swiper-slide>
-</swiper-container>
-<div
-  className="swiper-button-next_popular swiper-button-next text-secondary-100 bg-white w-[30px] h-[30px] m-auto inset-y-0 md:w-[40px] md:h-[40px] px-2 rounded-lg  "
->
-  aaa
-</div>
-<div
-  className="swiper-button-prev_popular swiper-button-prev text-secondary-100 bg-white w-[30px] h-[30px]  m-auto inset-y-0 md:w-[40px] md:h-[40px] px-2 rounded-lg "
->
-  aaa
-</div>
+      <div class="text-white">
+        <h3 class="text-lg font-bold uppercase line-clamp-1">
+          {{ movie.title || movie.name }}
+        </h3>
+        <div class="flex items-center gap-4 text-[#a3a3a3]">
+          <p>
+            {{ movie.release_date || movie.first_air_date | date : "yyyy" }}
+          </p>
+          <p>{{ movie.adult ? "+18" : "AA" }}</p>
+          <p>{{ getGenreName(movie.genre_ids[0]) }}</p>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+  <div class="absolute bottom-0">
+    <div class="swiper-button-prev_trending swiper-button-prev">a</div>
+    <div class="swiper-button-next_trending swiper-button-next">a</div>
+  </div>
+</section>

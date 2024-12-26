@@ -32,13 +32,21 @@ export class FilterMoviesComponent implements OnInit {
     await this.loadGenres();
   }
 
-  async loadGenres() {
-    try {
-      const response = await this.thmdbService.getGenreMovies();
-      this.genres = Array.isArray(response) ? response : response.genres || [];
-    } catch (error) {
-      this.genres = [];
-    }
+  loadGenres(): void {
+    this.thmdbService.getGenreMovies().subscribe({
+      next: (response) => {
+        // Asegúrate de que la respuesta tiene la propiedad 'genres'
+        if (response && response.genres) {
+          this.genres = response.genres; // Accede a la propiedad 'genres'
+        } else {
+          this.genres = []; // Si no hay géneros, asigna un arreglo vacío
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching genres', error);
+        this.genres = []; // En caso de error, asigna un arreglo vacío
+      },
+    });
   }
 
   onSearch(query: string, type: 'name' | 'genre'): void {

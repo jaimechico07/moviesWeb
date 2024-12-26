@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CardMoviesComponent } from '../../../components/card-movies/card-movies.component';
 import { CommonModule } from '@angular/common';
 import { FilterMoviesComponent } from '../filter-movies/filter-movies.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-show-movies',
@@ -36,66 +37,79 @@ export class ShowMoviesComponent implements OnInit {
     this.loadMoviesWithFilters();
   }
 
-  async loadMovies(
+  loadMovies(
     query: string = '',
     genreId?: number,
     listTrending?: string,
     listUpComing?: string,
     nowPlaying?: string
-  ) {
-    try {
-      let data;
-      if (query.trim()) {
-        // Búsqueda por nombre
-        data = await this.thmdbService.searchMovies(
-          query,
-          this.currentPage,
-          this.perPage
+  ): void {
+    let observable$;
+
+    if (query.trim()) {
+      // Búsqueda por nombre
+      observable$ = this.thmdbService.searchMovies(
+        query,
+        this.currentPage,
+        this.perPage
+      );
+    } else if (genreId != null) {
+      // Búsqueda por género
+      observable$ = this.thmdbService
+        .getMoviesAll(this.currentPage, this.perPage, genreId)
+        .pipe(
+          map((allMovies: any) => ({
+            results: allMovies.results.filter((movie: any) =>
+              movie.genre_ids.includes(genreId)
+            ),
+            total_pages: Math.min(allMovies.total_pages, 500),
+          }))
         );
-      } else if (genreId != null) {
-        // Búsqueda por género
-        const allMovies = await this.thmdbService.getMoviesAll(
-          this.currentPage,
-          this.perPage,
-          genreId
-        );
-        data = {
-          results: allMovies.results.filter((movie: any) =>
-            movie.genre_ids.includes(genreId)
-          ),
-          total_pages: Math.min(allMovies.total_pages, 500),
-        };
-      } else if (listTrending) {
-        // Cargar películas en tendencia
-        data = await this.thmdbService.trendingMovies(
-          listTrending,
-          this.currentPage
-        );
-      } else if (listUpComing) {
-        // Cargar películas en estreno
-        data = await this.thmdbService.upComingMovies(
-          this.currentPage,
-          this.perPage
-        );
-      } else if (nowPlaying) {
-        // Cargar películas ultimas publicadas
-        data = await this.thmdbService.nowPlayingMovies(
-          this.currentPage,
-          this.perPage
-        );
-      } else {
-        // Si no hay búsqueda, carga todas las películas
-        data = await this.thmdbService.getMoviesAll(
-          this.currentPage,
-          this.perPage
-        );
-      }
-      this.movies = data.results;
-      console.log('Movies:', this.movies);
-      this.totalPages = Math.min(data.total_pages, 500);
-    } catch (error) {
-      console.error('Error fetching Movies', error);
+    } else if (listTrending) {
+      // Cargar películas en tendencia
+      observable$ = this.thmdbService.trendingMovies(
+        listTrending,
+        this.currentPage
+      );
+    } else if (listUpComing) {
+      // Cargar películas en estreno
+      observable$ = this.thmdbService.upComingMovies(
+        this.currentPage,
+        this.perPage
+      );
+    } else if (nowPlaying) {
+      // Cargar películas últimas publicadas
+      observable$ = this.thmdbService.nowPlayingMovies(
+        this.currentPage,
+        this.perPage
+      );
+    } else {
+      // Si no hay búsqueda, carga todas las películas
+      observable$ = this.thmdbService.getMoviesAll(
+        this.currentPage,
+        this.perPage
+      );
     }
+
+    observable$.subscribe({
+      next: (data) => {
+        this.movies = data.results;
+        this.totalPages = Math.min(data.total_pages, 500);
+        if (this.movies.length === 0) {
+          Swal.fire({
+            title: 'Oops...',
+            text: 'No se encontraron resultados',
+            icon: 'error',
+            draggable: true,
+            timer: 3000,
+          });
+        }
+        console.log('Movies:', this.movies);
+      },
+      error: (error) => {
+        console.error('Error fetching Movies', error);
+      },
+    });
   }
 
   onSearch(query: string) {

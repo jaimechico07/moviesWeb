@@ -26,7 +26,7 @@
         </h1>
         <p class="text-white line-clamp-3">{{ movie.overview }}</p>
         <a
-          href=""
+          [routerLink]="['/explore/detail-movies', movie.id]"
           class="text-white bg-red-600 w-fit py-3 px-7 cursor-pointer rounded-lg"
           >Play Now</a
         >

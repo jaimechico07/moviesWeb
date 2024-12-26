@@ -9,11 +9,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ThmdbService } from '../../services/thmdb.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-carousel',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './carousel.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -25,19 +26,30 @@ export class CarouselComponent implements OnInit {
 
   constructor(private thmdbService: ThmdbService) {} // Inyección del servicio
 
-  async ngOnInit() {
-    try {
-      const response = await this.thmdbService.getGenreMovies();
+  ngOnInit(): void {
+    this.loadGenres();
+  }
 
-      this.genres = Array.isArray(response) ? response : response.genres || [];
+  loadGenres(): void {
+    this.thmdbService.getGenreMovies().subscribe({
+      next: (response) => {
+        // Asegúrate de que la respuesta tenga la propiedad 'genres'
+        this.genres = Array.isArray(response)
+          ? response
+          : response.genres || [];
 
-      this.genresMap = this.genres.reduce((map, genre) => {
-        map[genre.id] = genre.name;
-        return map;
-      }, {} as { [key: number]: string });
-    } catch (error) {
-      this.genres = [];
-    }
+        // Crear un mapa de géneros
+        this.genresMap = this.genres.reduce((map, genre) => {
+          map[genre.id] = genre.name;
+          return map;
+        }, {} as { [key: number]: string });
+      },
+      error: (error) => {
+        console.error('Error fetching genres', error);
+        this.genres = [];
+        this.genresMap = {};
+      },
+    });
   }
 
   getGenreName(genreId: number): string {
@@ -51,10 +63,16 @@ export class CarouselComponent implements OnInit {
     //   delay: 1000,
     //   disableOnInteraction: false,
     // },
-    slidesPerView: 1,
+    // navigation: true,
     breakpoints: {
-      640: {
+      320: {
+        slidesPerView: 1,
+      },
+      560: {
         slidesPerView: 2,
+      },
+      640: {
+        slidesPerView: 3,
       },
       768: {
         slidesPerView: 4,

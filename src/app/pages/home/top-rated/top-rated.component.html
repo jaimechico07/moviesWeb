@@ -1,5 +1,7 @@
 <section class="p-4 lg:p-16">
-  <div class="flex flex-col items-center  sm:w-full sm:flex-row justify-start mb-4">
+  <div
+    class="flex flex-col items-center sm:w-full sm:flex-row justify-start mb-4"
+  >
     <h2
       class="text-white text-4xl text-bold after:content-[''] after:block after:w-full sm:after:w-12 after:h-1 after:bg-red-600 after:rounded-full after:mt-2 mb-2 md:sm-0"
     >
@@ -14,28 +16,40 @@
     coverflow-effect-depth="100"
     coverflow-effect-modifier="1"
     coverflow-effect-slide-shadows="true"
-
   >
-    <swiper-slide *ngFor="let movie of movies" class="overflow-hidden w-[650px] h-[600px]">
+    <swiper-slide
+      *ngFor="let movie of movies"
+      class="overflow-hidden w-[650px] h-[600px]"
+    >
       <div class="relative w-full overflow-hidden h-[600px]">
         <img
-          [src]="
-            'https://image.tmdb.org/t/p/original' + movie.backdrop_path
-          "
+          [src]="'https://image.tmdb.org/t/p/original' + movie.backdrop_path"
           alt="{{ movie.title }}"
           class="w-full h-full object-center object-cover mb-2 transition-transform duration-500 hover:scale-125"
           loading="lazy"
         />
-        <div class=" absolute inset-y-0 flex flex-col gap-3 justify-center z-20 p-4 lg:px-20 items-start ">
+        <div
+          class="absolute inset-y-0 flex flex-col gap-3 justify-center z-20 p-4 lg:px-20 items-start"
+        >
           <h3 class="text-lg lg:text-3xl font-bold uppercase text-white">
             {{ movie.title }}
           </h3>
-          <p class="text-white text-sm lg:text-base line-clamp-3 lg:line-clamp-2 ">{{movie.overview}}</p>
-          <a href="" class="text-white bg-red-600 w-fit py-1 px-7  cursor-pointer rounded-lg">Play Now</a>
+          <p
+            class="text-white text-sm lg:text-base line-clamp-3 lg:line-clamp-2"
+          >
+            {{ movie.overview }}
+          </p>
+          <a
+            href=""
+            class="text-white bg-red-600 w-fit py-1 px-7 cursor-pointer rounded-lg"
+            [routerLink]="['/explore/detail-movies', movie.id]"
+            >Play Now</a
+          >
         </div>
-        <div class="absolute inset-y-0 left-0 w-[400px] h-full z-10 bg-gradient-hero_2"></div>
+        <div
+          class="absolute inset-y-0 left-0 w-[400px] h-full z-10 bg-gradient-hero_2"
+        ></div>
       </div>
-
     </swiper-slide>
   </swiper-container>
 </section>

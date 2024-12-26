@@ -20,13 +20,15 @@ export class TrendingComponent implements OnInit {
     this.loadMovies();
   }
 
-  async loadMovies() {
-    try {
-      const data = await this.thmdbService.trendingMovies(this.query);
-      this.movies = data.results;
-    } catch (error) {
-      console.error('Error fetching Movies', error);
-    }
+  loadMovies(): void {
+    this.thmdbService.trendingMovies(this.query).subscribe({
+      next: (data) => {
+        this.movies = data.results;
+      },
+      error: (error) => {
+        console.error('Error fetching Movies', error);
+      },
+    });
   }
 
   onTabSelected(tab: string) {

@@ -19,20 +19,30 @@ export class CardMoviesComponent implements OnInit {
 
   constructor(private thmdbService: ThmdbService) {}
 
-  async ngOnInit() {
-    try {
-      const response = await this.thmdbService.getGenreMovies();
-      this.genres = Array.isArray(response) ? response : response.genres || [];
+  ngOnInit(): void {
+    this.loadGenres();
+  }
 
-      // Mapear géneros a un objeto para un acceso rápido
-      this.genresMap = this.genres.reduce((map, genre) => {
-        map[genre.id] = genre.name;
-        return map;
-      }, {} as { [key: number]: string });
-    } catch (error) {
-      console.error('Error cargando géneros:', error);
-      this.genres = [];
-    }
+  loadGenres(): void {
+    this.thmdbService.getGenreMovies().subscribe({
+      next: (response) => {
+        // Asegúrate de que la respuesta tenga la propiedad 'genres'
+        this.genres = Array.isArray(response)
+          ? response
+          : response.genres || [];
+
+        // Mapear géneros a un objeto para un acceso rápido
+        this.genresMap = this.genres.reduce((map, genre) => {
+          map[genre.id] = genre.name;
+          return map;
+        }, {} as { [key: number]: string });
+      },
+      error: (error) => {
+        console.error('Error cargando géneros:', error);
+        this.genres = [];
+        this.genresMap = {};
+      },
+    });
   }
 
   getGenreName(genreId: number): string {
